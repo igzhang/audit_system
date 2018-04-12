@@ -126,3 +126,14 @@ class SessionDetail(models.Model):
 
     class Meta:
         verbose_name_plural = "命令详情表"
+
+
+class Token(models.Model):
+    """
+    token值表
+    """
+    connect = models.ForeignKey("ServerToAccount",on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    token = models.CharField(verbose_name="token",max_length=64,unique=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    logged = models.BooleanField(default=False)

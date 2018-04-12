@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    {% csrf_token %}
     <div id="page-head">
         <div id="page-title">
             <h1 class="page-header text-overflow">主机列表</h1>
@@ -53,6 +54,8 @@
                                     <th class="min-width">设备</th>
                                     <th>配置</th>
                                     <th class="text-center">别名</th>
+                                    <th class="text-center">获取Token</th>
+                                    <th class="text-center">当前Token值</th>
                                     <th class="text-center">操作</th>
                                 </tr>
                             </thead>

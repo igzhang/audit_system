@@ -101,13 +101,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -121,7 +121,8 @@ LOGIN_URL = "/login/"
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
-SSH_MODE = "paramiko"  # choose ssh or paramiko
+SSH_MODE = "paramiko"    # choose ssh or paramiko
+TOKEN_EXPIRED_TIME = 300  #token超时时间，单位是秒
 
 SSH_FILE_PATH = "/usr/local/openssh7/bin/ssh"
 SHELL_FILE_PATH = os.path.join(BASE_DIR, "src", "strace.sh")

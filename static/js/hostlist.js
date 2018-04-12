@@ -57,9 +57,15 @@ $(function () {
                         $span2.prop("class","text-semibold").text(row.server__nickname);
                         $td2.prop("class","text-center").append($span2);
 
-                        var $td3=$("<td class=\"text-center\"><span class=\"text-danger text-semibold\">登陆</span></td>");
+                        var $td3=$("<td class='text-center'><button class=\'btn btn-info btn-rounded\ get_token'>获取Token</button></td>");
+                        $td3.attr("connect_id",row.id);
 
-                        $tr.append($icon).append($td1).append($td2).append($td3);
+                        var $td4=$("<td class='text-center token_value'></td>");
+
+                        var $td5=$("<td class='text-center'><a class=\'btn btn-lg btn-default btn-hover-warning\ open_shell'>登陆</a></td>");
+                        $td5.find("a").prop("href","https://"+row.server__ip+":4200");
+
+                        $tr.append($icon).append($td1).append($td2).append($td3).append($td4).append($td5);
                         host_list.append($tr);
                     })
                 }else {
@@ -67,5 +73,27 @@ $(function () {
                 }
             }
         })
+    });
+
+    //获取token值
+    $("#host_list").on("click",".get_token",function () {
+        var connect_id=$(this).parent().attr("connect_id");
+        var $button=$(this);
+        $.ajax({
+            url:"/api/token",
+            type:"POST",
+            data:{
+                "csrfmiddlewaretoken":$("input[name='csrfmiddlewaretoken']").val(),
+                "connect_id":connect_id
+            },
+            dataType:"json",
+            success:function (args) {
+                if(args.status){
+                    $button.parent().next().text(args.msg);
+                }else {
+                    console.log(args.msg);
+                }
+            }
+        });
     })
 });

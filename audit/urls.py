@@ -23,8 +23,11 @@ urlpatterns = [
     path('login/', views.user_login),
     path('logout/', views.user_logout),
     path('hostlist.html', views.hostlist),
+    path('multicmd.html', views.multicmd),
     path('api/grouplist', api.GroupList.as_view()),
     path('api/hostlist', api.HostList.as_view()),
+    path('api/hostlistall', api.HostListAll.as_view()),
+    path('api/token', api.token),
     path('', views.index),
 
 ]

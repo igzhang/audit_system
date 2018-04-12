@@ -1,15 +1,15 @@
 import subprocess
-import string
-import random
 import os
 import datetime
 import getpass
 from django.contrib.auth import authenticate
 from django.conf import settings
 from backend import models
-
+from src import unicode_id
+from lib.paramiko_master.demos import demo
 
 class UserShell:
+
     def auth(self):
         """
         用户登陆认证
@@ -28,7 +28,6 @@ class UserShell:
                 count += 1
 
     def show_menu(self, host_list):
-
         while True:
             for index, host in enumerate(host_list):
                 print("%s>>>>>>%s" % (index, host))
@@ -53,25 +52,34 @@ class UserShell:
         if self.server_to_account_obj.account.ssh_type == 0:
             if settings.SSH_MODE.lower() == "original":
                 self.original_ssh()
-
             elif settings.SSH_MODE.lower() == "paramiko":
-                from lib.paramiko_master.demos import demo
                 demo.run(self.user_obj,self.server_to_account_obj)
 
-    def unicode_id(self):
+    def token_auth(self):
         """
-        生成一个10位数的唯一标识符
+        token验证
         :return:
         """
-        choices_str = string.ascii_lowercase + string.digits
-        result_list = random.sample(choices_str, 10)
-        return "".join(result_list)
+        count = 0
+        while count < 3:
+            token_str = input("请输入Token值(enter跳过)>>>").strip()
+            if not token_str:
+                return
+            elif len(token_str) == 10:
+                user_obj = models.User.objects.filter(token__token=token_str).first()
+                server_to_account_obj = models.ServerToAccount.objects.filter(token__token=token_str).first()
+                demo.run(user_obj, server_to_account_obj)
+                exit()
+            else:
+                print("Token值错误，请检查后输入")
+                count += 1
 
     def start(self):
         """
         启动交互程序
         :return:
         """
+        self.token_auth()
         if self.auth():
             host_ungroup_list = self.user_obj.auditaccount.server_account.all()
             host_groups_list = self.user_obj.auditaccount.server_group.all()
@@ -105,7 +113,7 @@ class UserShell:
                 return
 
     def original_ssh(self):
-        session_tag = self.unicode_id()
+        session_tag = unicode_id.unicode_id()
         session_history_obj = models.SessionHistory.objects.create(
             uid=session_tag, user=self.user_obj, connect=self.server_to_account_obj
         )

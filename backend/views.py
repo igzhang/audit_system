@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 
+
 @login_required
 def index(request):
     """
@@ -44,6 +45,8 @@ def user_logout(request):
     logout(request)
     return redirect("/login/")
 
+
+@login_required
 def hostlist(request):
     """
     主机列表页面
@@ -51,3 +54,12 @@ def hostlist(request):
     :return:
     """
     return render(request,"hostlist.html")
+
+@login_required
+def multicmd(request):
+    """
+    批量命令页面
+    :param request:
+    :return:
+    """
+    return render(request,"multicmd.html")

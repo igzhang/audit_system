@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/nifty-demo-icons.min.css">
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div id="page-head">
+        <div id="page-title">
+            <h1 class="page-header text-overflow">批量命令</h1>
+        </div>
+
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="pli-home"></i></a></li>
+            <li class="active">主机管理</li>
+            <li class="active">批量命令</li>
+        </ol>
+    </div>
+
+    <div id="page-content">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel">
+                    <!--Panel heading-->
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            <button class="btn btn-default" data-panel="fullscreen">
+                                <i class="icon-max demo-psi-maximize-3"></i>
+                                <i class="icon-min demo-psi-minimize-3"></i>
+                            </button>
+                        </div>
+                        <h3 class="panel-title">主机组列表（已选择<span id="host_num" style="color: red"></span>）</h3>
+
+                    </div>
+
+                    <!--Panel body-->
+                    <div class="panel-body">
+                        <ul class="list-group" id="group_list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">批处理命令</h3>
+                        </div>
+
+                        <!--Hover Rows-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                        </div>
+                        <!--===================================================-->
+                        <!--End Hover Rows-->
+
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">运行结果</h3>
+                        </div>
+
+                        <!--Hover Rows-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                        </div>
+                        <!--===================================================-->
+                        <!--End Hover Rows-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js2 %}
+    <script src="/static/js/multicmd.js"></script>
+{% endblock %}
