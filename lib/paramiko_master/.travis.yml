@@ -1,0 +1,42 @@
+language: python
+sudo: false
+cache:
+  directories:
+    - $HOME/.cache/pip
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7-dev"
+  - "pypy-5.6.0"
+matrix:
+  allow_failures:
+    - python: "3.7-dev"
+    - python: "pypy-5.6.0"
+install:
+  # Ensure modern pip/etc to avoid some issues w/ older worker environs
+  - pip install pip==9.0.1 setuptools==36.6.0
+  # Self-install for setup.py-driven deps
+  - pip install -e .
+  # Dev (doc/test running) requirements
+  # TODO: use pipenv + whatever contexty-type stuff it has
+  - pip install codecov # For codecov specifically
+  - pip install -r dev-requirements.txt
+script:
+  # All (including slow) tests, w/ coverage!
+  - inv coverage
+  # Ensure documentation builds, both sites, maxxed nitpicking
+  - inv sites
+  # flake8 is now possible!
+  - flake8
+notifications:
+  irc:
+    channels: "irc.freenode.org#paramiko"
+    template:
+      - "%{repository}@%{branch}: %{message} (%{build_url})"
+    on_success: change
+    on_failure: change
+  email: false
+after_success:
+  - codecov

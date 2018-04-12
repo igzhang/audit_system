@@ -1,0 +1,73 @@
+{% extends "index.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/nifty-demo-icons.min.css">
+{% endblock %}
+
+{% block content %}
+    <div id="page-head">
+        <div id="page-title">
+            <h1 class="page-header text-overflow">主机列表</h1>
+        </div>
+
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="pli-home"></i></a></li>
+            <li class="active">主机列表</li>
+        </ol>
+    </div>
+
+    <div id="page-content">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="panel">
+                    <!--Panel heading-->
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            <button class="btn btn-default" data-panel="fullscreen">
+                                <i class="icon-max demo-psi-maximize-3"></i>
+                                <i class="icon-min demo-psi-minimize-3"></i>
+                            </button>
+                        </div>
+                        <h3 class="panel-title">组列表</h3>
+                    </div>
+
+                    <!--Panel body-->
+                    <div class="panel-body">
+                        <ul class="list-group" id="group_list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">主机列表</h3>
+                    </div>
+
+                    <!--Hover Rows-->
+                    <!--===================================================-->
+                    <div class="panel-body">
+                        <table class="table table-hover table-vcenter">
+                            <thead>
+                                <tr>
+                                    <th class="min-width">设备</th>
+                                    <th>配置</th>
+                                    <th class="text-center">别名</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="host_list"></tbody>
+                        </table>
+                    </div>
+                    <!--===================================================-->
+                    <!--End Hover Rows-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js2 %}
+    <script src="/static/js/hostlist.js"></script>
+{% endblock %}
