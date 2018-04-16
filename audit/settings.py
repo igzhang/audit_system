@@ -126,3 +126,9 @@ TOKEN_EXPIRED_TIME = 300  #token超时时间，单位是秒
 
 SSH_FILE_PATH = "/usr/local/openssh7/bin/ssh"
 SHELL_FILE_PATH = os.path.join(BASE_DIR, "src", "strace.sh")
+
+SCRIPT_PATH = os.path.join(BASE_DIR,"utils","muti_script.py")
+MULTI_POOL_MAX = 100
+
+UPLOADFILES_DIR = os.path.join(BASE_DIR,"upload")
+DOWNLOADFILES_DIR = os.path.join(BASE_DIR,"download")

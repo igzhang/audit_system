@@ -24,10 +24,15 @@ urlpatterns = [
     path('logout/', views.user_logout),
     path('hostlist.html', views.hostlist),
     path('multicmd.html', views.multicmd),
+    path('multifile.html', views.multifile),
     path('api/grouplist', api.GroupList.as_view()),
     path('api/hostlist', api.HostList.as_view()),
     path('api/hostlistall', api.HostListAll.as_view()),
     path('api/token', api.token),
+    path('api/cmdresult', api.cmdresult),
+    path('api/multirun', api.multirun),
+    path('api/filerecv', api.filerecv),
+    path('api/filedownload', api.file_download),
     path('', views.index),
 
 ]

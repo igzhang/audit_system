@@ -137,3 +137,52 @@ class Token(models.Model):
     token = models.CharField(verbose_name="token",max_length=64,unique=True)
     create_time = models.DateTimeField(auto_now_add=True)
     logged = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "%s-%s"%(self.token,self.connect)
+
+    class Meta:
+        verbose_name_plural = "Token表"
+
+
+class MultipleHistory(models.Model):
+    """
+    批量执行记录
+    """
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    type_choice = (
+        (1,"批量命令"),
+        (2,"批量上传文件"),
+        (3,"批量下载文件"),
+    )
+    type = models.SmallIntegerField(choices=type_choice)
+    create_time = models.DateTimeField(auto_now_add=True)
+    cmds = models.TextField(null=True)
+
+    def __str__(self):
+        return "%s-%s"%(self.id,self.cmds)
+
+    class Meta:
+        verbose_name_plural = "批量执行记录"
+
+
+class MultipleLog(models.Model):
+    """
+    批量执行结果
+    """
+    task = models.ForeignKey("MultipleHistory",on_delete=models.CASCADE)
+    connect = models.ForeignKey("ServerToAccount",on_delete=models.CASCADE)
+    status_choice = (
+        (1, "成功"),
+        (2, "失败"),
+        (3, "初始化"),
+    )
+    status = models.SmallIntegerField(choices=status_choice)
+    create_time = models.DateTimeField(auto_now_add=True)
+    result = models.TextField(null=True)
+
+    def __str__(self):
+        return "%s-%s"%(self.task,self.status)
+
+    class Meta:
+        verbose_name_plural = "批量执行结果"

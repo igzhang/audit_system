@@ -1,0 +1,72 @@
+{% extends "index.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/nifty-demo-icons.min.css">
+    <link rel="stylesheet" href="/static/css/dropzone.min.css">
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div id="page-head">
+        <div id="page-title">
+            <h4>批量文件</h4>
+        </div>
+
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="pli-home"></i></a></li>
+            <li class="active">主机管理</li>
+            <li class="active">批量文件</li>
+        </ol>
+    </div>
+
+    <div id="page-content">
+        <div class="row">
+            {% include "common/host_choose.html" %}
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <select name="file_mode" class="form-control" id="file_mode_choice">
+                                <option value="upload">上传文件至服务器</option>
+                                <option value="download">从服务器下载文件</option>
+                            </select>
+                        </div>
+
+                        <!--Hover Rows-->
+                        <!--===================================================-->
+                        <div class="panel-body">
+                            <form id="demo-dropzone" action="/api/filerecv?uid={{ uid }}" class="dropzone dz-clickable">
+                                {% csrf_token %}
+					            <div class="dz-default dz-message">
+					                <div class="dz-icon">
+					                    <i class="demo-pli-upload-to-cloud icon-5x"></i>
+					                </div>
+					                <div>
+					                    <span class="dz-text">拖拽文件</span>
+					                    <p class="text-sm text-muted">或者选择文件上传</p>
+					                </div>
+					            </div>
+					        </form>
+                            <input type="text" placeholder="服务器路径" class="form-control" id="server_path">
+                            <input type="hidden" value="{{ uid }}" id="uid">
+                            <button class="btn btn-info" id="cmd_run">执行</button>
+                            <a class="btn btn-warning hide" id="download_button" href="/api/filedownload">下载所有文件</a>
+                            <button class="btn btn-danger pull-right">停止</button>
+                        </div>
+                        <!--===================================================-->
+                        <!--End Hover Rows-->
+
+                    </div>
+
+                    {% include "common/result.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js2 %}
+    <script src="/static/js/multifile.js"></script>
+    <script src="/static/js/dropzone.min.js"></script>
+{% endblock %}

@@ -1,7 +1,8 @@
+import uuid
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from src import unicode_id
 
 
 @login_required
@@ -63,3 +64,14 @@ def multicmd(request):
     :return:
     """
     return render(request,"multicmd.html")
+
+
+@login_required
+def multifile(request):
+    """
+    批量文件页面
+    :param request: 请求文件，类型request.obj
+    :return:
+    """
+    uid = uuid.uuid4()
+    return render(request,"multifile.html",{"uid":uid})

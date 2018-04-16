@@ -1,5 +1,4 @@
 $(function () {
-
     function makeHosts(row) {
         var $li=$("<li>");
         var $checkbox=$("<input>");
@@ -9,6 +8,18 @@ $(function () {
         $li.append($checkbox).append($span);
         return $li
     }
+
+    //更改上传下载方式
+    $("#file_mode_choice").change(function () {
+        if($(this).val()=="upload"){
+            $("#demo-dropzone").show();
+            $("#download_button").addClass("hide");
+        }else {
+            $("#demo-dropzone").hide();
+            $("#download_button").removeClass("hide");
+        }
+
+    });
 
     //获取主机组数据
     $.ajax({
@@ -102,7 +113,7 @@ $(function () {
     //根据task_id获取执行结果
     var percent;
     function getCMDLog(task_id) {
-        console.log(22);
+        var percent_num="";
         var done_num=0;
         $.ajax({
             url:"/api/cmdresult",
@@ -127,7 +138,6 @@ $(function () {
                         $("#cmd_result").append($p1).append($pre);
                     });
                     percent_num=done_num/host_submit_num*100+"%";
-                    console.log(percent_num);
                     if(percent_num=="100%"){
                         clearInterval(getting);
                     }
@@ -143,24 +153,26 @@ $(function () {
     var host_submit_num;
     var getting;
     $("#cmd_run").click(function () {
+        var mode=$("#file_mode_choice").val();
         var host_id_list=[];
         $("#group_list ul :checked").each(function () {
            host_id_list.push($(this).val());
         });
-        var cmd=$.trim($("#cmd_content").val());
+        var server_path=$.trim($("#server_path").val());
         host_submit_num=host_id_list.length;
-        if(host_id_list.length==0){
+        if(host_submit_num==0){
             alert("请选择要执行的主机");
         }else {
-            if(cmd){
+            if(server_path){
                 $.ajax({
                     url:"/api/multirun",
                     type:"POST",
-                    data:{"host_id_list":host_id_list,"cmd":cmd,"type":"cmd_mode",
+                    data:{"host_id_list":host_id_list,"cmd":server_path,"type":mode,"uid":$("#uid").val(),
                         "csrfmiddlewaretoken":$("input[name='csrfmiddlewaretoken']").val()},
                     dataType:"json",
                     success:function (ret) {
                         if(ret.status){
+                            $("#download_button").prop("href","/api/filedownload?taskid="+ret.msg);
                             getCMDLog(ret.msg);
                             getting=setInterval(getCMDLog,2000,ret.msg);
                         }else {
@@ -169,7 +181,7 @@ $(function () {
                     }
                 })
             }else {
-                alert("请输入要执行的命令");
+                alert("请输入服务器路径");
             }
         }
     });
